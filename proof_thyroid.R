@@ -23,9 +23,6 @@ test <- data[ind==2, 1:8]
 trainingtarget <- data[ind==1,9]
 testtarget <- data[ind==2, 9]
 
-
-
-
 #Create matrix of outcome variables
 trainlabel <- to_categorical(trainingtarget)
 testlabel <- to_categorical(testtarget)
@@ -38,9 +35,9 @@ model <- keras_model_sequential()
 model %>%
   layer_dense(units = 50, activation = 'relu', input_shape = c(8)) %>%
   layer_dropout(rate = 0.4) %>%
-  layer_dense(units = 25, activation = 'relu') %>%
-  layer_dropout(rate = 0.2) %>%
   layer_dense(units = 10, activation = 'relu') %>%
+  layer_dropout(rate = 0.2) %>%
+  layer_dense(units = 5, activation = 'relu') %>%
   layer_dropout(rate = 0.2) %>%
   layer_dense(units = 12, activation = 'softmax')
 
@@ -50,7 +47,7 @@ model %>%
 model %>%
   compile(loss = 'categorical_crossentropy',
           optimizer = 'adam',
-          metrics = 'accuracy')
+          metrics = c('accuracy'))
 
 # Fit Model
 history <- model %>%
@@ -67,11 +64,14 @@ history <- model %>%
 
 #Evaluate model
 # Apply reinforcement learning to compare models (Model-free RL, Q-learning)
-model %>%
+metrics <- model %>%
   evaluate(test,
            testlabel)
+metrics
 
 #Predictions
+model %>% predict_classes(test)
+
 prob <- model %>%
   predict_proba(test)
 
