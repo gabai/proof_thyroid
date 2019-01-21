@@ -4,14 +4,14 @@
 library(keras)
 library(neuralnet)
 
-# Get data
+# Loading data
 data <- read.csv("C:/Users/D1/Desktop/ML/proof_thyroid/Simulated1.csv")
 
 # Modify data
 data <- as.matrix(data)
 # dimnames(data) <- NULL #Remove variable names
-data[, 1:6] <- normalize(data[, 1:8]) # If these two sentences are lower they alter model a lot
-data[, 7] <- as.numeric(data[, 9]) -1
+data[, 1:8] <- normalize(data[, 1:8]) # If these two sentences are lower they change model a lot
+data[, 9] <- as.numeric(data[, 9]) -1
 
 # Set random seed
 set.seed(7)
